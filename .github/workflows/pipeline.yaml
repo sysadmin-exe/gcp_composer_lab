@@ -1,8 +1,10 @@
 name: Deploy DAGs to Composer
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
+on: [push]
+
 jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy
