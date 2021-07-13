@@ -1,4 +1,4 @@
-name: cloudrun-deploy
+name: Deploy DAGs to Composer
 on:
   push:
     branches:
@@ -15,17 +15,10 @@ jobs:
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@master
       with:
-        service_account_email: ${{ secrets.GCP_EMAIL }}
-        service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+        service_account_email: root-409@pristine-cairn-318322.iam.gserviceaccount.com #${{ secrets.GCP_EMAIL }}
+        service_account_key: -----BEGIN PRIVATE KEY-----MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCUqj4Pc7lt4MtCgICksWRSfOYmf0910ex0Mej1ID/zmvqs4+Tv6PPGpu5QD4u1D5shSAaVwcxU9a6VZQGisBmPf6xOnai4t7ySkqdK8L4fPORGvMDazq4AfYR9FAl4fkfayO6kgeHG12St4UpY7ETLRxFI1VH+boEfQiQpqo6nDVtb71HKwscE5LWQJT2nyUbM8urhfPKG+1Mj1iwSsONSOSCS/NHEg/0xhPxxA4ZFmgFeMnJsVBrIwe2V9m3aO9DpzILLmZdrSGdsH2tSZWBw7S0SvmXcEJIzuTuKLAcWnHHCL/5Bbe+aUAPfwZWHq7EmATkcWZZDFGP3sC23MQflAgMBAAECggEAEOo85POxG7opzl+CI5sGc+c/pY4zO4/e1Eqwe6GHfT97Oaw1aoGqKQZp06StK/UCXNtN2oDCL8GDc36aXMkmI2BuucQxBBFtzIyQqdNyAmpie9TyqYK+JBKj/jpHKJVPtipKEuAvUPlFfI5HcA4z9qAXrJ6O9YDbwrN7G12LXSDYw86LyrqQnOz74c9sn7T10QVzy0uwojnyHjpDrXkbCLnDQtMn1UmIhr/kGq7/8aWP7fVVONi9omqxu/TQTrwMOmyUBJh9iVmdtw5U5J0I2pA6CJzmqfoPIn1fE3CxW9omY+9JtKQTCu+qSFA++qjclKzUKQJbyKhTXCydhtc8WQKBgQDJKKXm+oFGXbV4f3fsXe7p0kS9Hy9EM7x0auwy5SnhFmEYsFwGwgUgjNuH7D1mrMwvbMW1m8LQkEqZ+EFl4C+EJZRfiV4Ur7BzYJWZIewVo1ysmL5DrTqz2gCmyyhmGR5e0U6G8ojtIyqD2iOip38Con9opX2Fdm3sM/66rCbj2QKBgQC9Me25N366svTzWIE4olSZWfmRbECnly0KTMqh0n8sH66X5vCFpTI7cq/c6ufvdZjV7vGi7mt95qSwtXRF86IQGqEXLT0TqMiJ2AXLDOIfvVTh2H25oZJTkrPDiaDbIydT3fvaegN/hFBhhyOzufpTmmaNZSKs0Uf+/KQdBNnY7QKBgCr7D2+p6MNTNHoZqlMLwwec0Okj56KH92VcjzlUs70PXhG7ZP5gqF3LGwEQ3hG5LCuZ7yidrmOH4RjC7Z5J530x1mEPZdW/sFEGuxAsKlh5Pkz2mfi148wX8XmyAODHzzBtQn0dB1q739KqYmDXrxCuDdEbQxWoN1Z3yZ6zN+AJAoGAfrcQFztZ/8WYVdvzQHFI5CTlCEdOznBsVDe2h8eqMW1OzKJ6eah5CmP38ajLixBiOvb8lDnHeN2fdFMz+x4Ab3TGa/V6sM4c8mXjC2onkUaHsXQEUO4sSRk6mT52pA7ZakyFQID0EtYV2BxhByEKzi/de9o+7SyGYfvoFx+GoMkCgYEAlrMph5CpDMI45bZBQfxDac4rSPJ1xwSemiH3IdI5k6XJh/JEqAkQrcNz59fTAq6BRdnILx1FaUQ8+4GEOoQFD1DP3YgxtlRe6qApc2Bnyw8sy1OftSaPwpk1Z+fEPfEHdUHHnslOupnJBxTFBM6HMU2hvfdYutzmUPXScgsbaY8=-----END PRIVATE KEY----- #${{ secrets.GCP_CREDENTIALS }}
         export_default_credentials: true
-        project_id: ${{ secrets.GCP_PROJECT_ID }}
-
-    # - name: Set up Cloud SDK
-    #   uses: google-github-actions/setup-gcloud@master
-    #   with:
-    #     project_id: ${{ secrets.GCP_PROJECT_ID }}
-    #     service_account_key: ${{ secrets.GCP_SA_KEY }}
-    #     export_default_credentials: true
+        project_id: pristine-cairn-318322 #${{ secrets.GCP_PROJECT_ID }}
 
     - name: Use gcloud CLI
       run: gcloud info
@@ -35,8 +28,8 @@ jobs:
       name: upload DAGs to GCS
       uses: google-github-actions/upload-cloud-storage@main
       with:
-        path: /path/to/file
-        destination: bucket-name/file
+        path: ./dags/sample.py
+        destination: europe-west1-firstcomposer-de8e6ba3-bucket/dags/sample_pipeline.py
 
     # Example of using the output
     - id: uploaded-files
