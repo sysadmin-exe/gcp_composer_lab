@@ -30,7 +30,7 @@ jobs:
       name: upload DAGs to GCS
       uses: google-github-actions/upload-cloud-storage@main
       with:
-        path: ./dags/sample.py
+        path: ./dags/sample1.py
         destination: europe-west1-firstcomposer-de8e6ba3-bucket/dags/sample_pipeline.py
 
     # Example of using the output
