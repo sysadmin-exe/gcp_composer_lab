@@ -33,6 +33,10 @@ jobs:
       with:
         path: ./dags/tutorial.py
         destination: europe-west1-firstcomposer-de8e6ba3-bucket/data/test
+    
+    # Run the test on the GCS folder that  has the DAGs
+    - id: test-dags
+      name: test dags
       run: gcloud composer environments run firstcomposer --location europe-west1 --project ${{ secrets.GCP_PROJECT_ID }}  list_dags -- -sd /home/airflow/gcs/data/test
 
     # Example of using the output
