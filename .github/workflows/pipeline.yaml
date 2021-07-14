@@ -37,8 +37,13 @@ jobs:
     # Run the test on the GCS folder that  has the DAGs
     - id: test-dags
       name: test dags
-      run: gcloud composer environments run firstcomposer --location europe-west1 --project ${{ secrets.GCP_PROJECT_ID }}  list_dags -- -sd /home/airflow/gcs/data/test 
-      
+      run: |
+        gcloud composer environments run firstcomposer --location europe-west1 --project ${{ secrets.GCP_PROJECT_ID }}  list_dags -- -sd /home/airflow/gcs/data/test 
+        if [[ $? == 1 ]]; then 
+          echo -e "the tests failed. Issue with some DAGs" 
+        else 
+          echo "DAGs passed tests" 
+        fi
     # Example of using the output
     # - id: uploaded-files
     #   name: output the file name uploaded
