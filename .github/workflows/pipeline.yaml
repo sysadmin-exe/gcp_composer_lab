@@ -27,11 +27,11 @@ jobs:
 
 # Testing the DAGS - Integration testing
     # Upload files to data directory GCS so that a test can be run on the DAGs
-    - id: upload-file-to-data-dir
+    - id: upload-dags-to-data-dir
       name: upload DAGs to GCS data dir for test
       uses: google-github-actions/upload-cloud-storage@main
       with:
-        path: ./dags/tutorial.py
+        path: ./dags/
         destination: europe-west1-firstcomposer-de8e6ba3-bucket/data/test
     
     # Run the test on the GCS folder that  has the DAGs
@@ -44,6 +44,16 @@ jobs:
         else 
           echo "DAGs passed tests" 
         fi
+
+    # Upload files to data directory GCS so that a test can be run on the DAGs
+    - id: upload-dags-to-dah-dir
+      name: upload DAGs to GCS DAG dir for Airflow
+      uses: google-github-actions/upload-cloud-storage@main
+      with:
+        path: ./dags/
+        destination: europe-west1-firstcomposer-de8e6ba3-bucket/dags
+
+
     # Example of using the output
     # - id: uploaded-files
     #   name: output the file name uploaded
