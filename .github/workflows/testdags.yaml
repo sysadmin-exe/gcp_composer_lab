@@ -30,7 +30,7 @@ jobs:
       with:
         path: ./dags/
         destination: europe-west1-firstcomposer-de8e6ba3-bucket/data/test
-        glob: '**/*.txt'
+        glob: '**/*.py'
     
     # Run the test on the GCS folder that  has the DAGs
     - id: test-dags
