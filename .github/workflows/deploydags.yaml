@@ -25,26 +25,6 @@ jobs:
     - name: Use gcloud CLI
       run: gcloud info
 
-# Testing the DAGS - Integration testing
-    # Upload files to data directory GCS so that a test can be run on the DAGs
-    - id: upload-dags-to-data-dir
-      name: upload DAGs to GCS data dir for test
-      uses: google-github-actions/upload-cloud-storage@main
-      with:
-        path: ./dags/
-        destination: europe-west1-firstcomposer-de8e6ba3-bucket/data/test
-    
-    # Run the test on the GCS folder that  has the DAGs
-    - id: test-dags
-      name: test dags
-      run: |
-        gcloud composer environments run firstcomposer --location europe-west1 --project ${{ secrets.GCP_PROJECT_ID }}  list_dags -- -sd /home/airflow/gcs/data/test 
-        if [[ $? == 1 ]]; then 
-          echo -e "the tests failed. Issue with some DAGs" 
-        else 
-          echo "DAGs passed tests" 
-        fi
-
     # Upload files to data directory GCS so that a test can be run on the DAGs
     - id: upload-dags-to-dah-dir
       name: upload DAGs to GCS DAG dir for Airflow
@@ -52,6 +32,7 @@ jobs:
       with:
         path: ./dags/
         destination: europe-west1-firstcomposer-de8e6ba3-bucket/dags
+        glob: '**/*.txt'
 
 
     # Example of using the output

@@ -1,0 +1,51 @@
+name: Test DAGs
+
+on: [push]
+
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    # Setup gcloud CLI
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        service_account_email: ${{ secrets.GCP_EMAIL }}
+        service_account_key:  ${{ secrets.GCP_CREDENTIALS }}
+        export_default_credentials: true
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+    - name: Use gcloud CLI
+      run: gcloud info
+
+# Testing the DAGS - Integration testing
+    # Upload files to data directory GCS so that a test can be run on the DAGs
+    - id: upload-dags-to-data-dir
+      name: upload DAGs to GCS data dir for test
+      uses: google-github-actions/upload-cloud-storage@main
+      with:
+        path: ./dags/
+        destination: europe-west1-firstcomposer-de8e6ba3-bucket/data/test
+        glob: '**/*.txt'
+    
+    # Run the test on the GCS folder that  has the DAGs
+    - id: test-dags
+      name: test dags
+      run: |
+        gcloud composer environments run firstcomposer --location europe-west1 --project ${{ secrets.GCP_PROJECT_ID }}  list_dags -- -sd /home/airflow/gcs/data/test 
+        if [[ $? == 1 ]]; then 
+          echo -e "the tests failed. Issue with some DAGs" 
+        else 
+          echo "DAGs passed tests" 
+        fi
+
+    # Example of using the output
+    # - id: uploaded-files
+    #   name: output the file name uploaded
+    #   uses: google-github-actions/upload-cloud-storage@main
+    #   env:
+    #     file: ${{steps.upload-file.outputs.uploaded}}%
