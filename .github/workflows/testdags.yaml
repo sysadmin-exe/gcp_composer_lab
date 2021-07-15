@@ -24,13 +24,18 @@ jobs:
 
 # Testing the DAGS - Integration testing
     # Upload files to data directory GCS so that a test can be run on the DAGs
+    # - id: upload-dags-to-data-dir
+    #   name: upload DAGs to GCS data dir for test
+    #   uses: google-github-actions/upload-cloud-storage@main
+    #   with:
+    #     path: ./dags/
+    #     destination: europe-west1-firstcomposer-de8e6ba3-bucket/data/test/
+    #     glob: '*.py'
+
     - id: upload-dags-to-data-dir
       name: upload DAGs to GCS data dir for test
-      uses: google-github-actions/upload-cloud-storage@main
-      with:
-        path: ./dags/
-        destination: europe-west1-firstcomposer-de8e6ba3-bucket/data/test/
-        glob: '*.py'
+      run: |
+        gsutils cp ./dags/*.py gs://europe-west1-firstcomposer-de8e6ba3-bucket/data/test/
     
     # Run the test on the GCS folder that  has the DAGs
     - id: test-dags

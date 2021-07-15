@@ -23,13 +23,18 @@ jobs:
       run: gcloud info
 
     # Upload files to data directory GCS so that a test can be run on the DAGs
-    - id: upload-dags-to-dah-dir
+    # - id: upload-dags-to-gcs-dag-dir
+    #   name: upload DAGs to GCS DAG dir for Airflow
+    #   uses: google-github-actions/upload-cloud-storage@main
+    #   with:
+    #     path: ./dags/
+    #     destination: europe-west1-firstcomposer-de8e6ba3-bucket/dags/
+    #     glob: '*.py'
+
+    - id: upload-dags-to-gcs-dag-dir
       name: upload DAGs to GCS DAG dir for Airflow
-      uses: google-github-actions/upload-cloud-storage@main
-      with:
-        path: ./dags/
-        destination: europe-west1-firstcomposer-de8e6ba3-bucket/dags/
-        glob: '*.py'
+      run: |
+        gsutils cp ./dags/*.py gs://europe-west1-firstcomposer-de8e6ba3-bucket/dag/
 
 
     # Example of using the output
