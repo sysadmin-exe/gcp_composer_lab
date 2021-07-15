@@ -34,7 +34,7 @@ jobs:
     - id: upload-dags-to-gcs-dag-dir
       name: upload DAGs to GCS DAG dir for Airflow
       run: |
-        gsutil cp ./dags/*.py gs://europe-west1-firstcomposer-de8e6ba3-bucket/dag/
+        gsutil cp ./dags/*.py gs://europe-west1-firstcomposer-de8e6ba3-bucket/dags/
 
 
     # Example of using the output
