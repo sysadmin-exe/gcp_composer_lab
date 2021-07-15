@@ -35,7 +35,7 @@ jobs:
     - id: upload-dags-to-data-dir
       name: upload DAGs to GCS data dir for test
       run: |
-        gsutils cp ./dags/*.py gs://europe-west1-firstcomposer-de8e6ba3-bucket/data/test/
+        gsutil cp ./dags/*.py gs://europe-west1-firstcomposer-de8e6ba3-bucket/data/test/
     
     # Run the test on the GCS folder that  has the DAGs
     - id: test-dags
