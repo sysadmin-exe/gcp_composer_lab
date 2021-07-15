@@ -1,2 +1,4 @@
 this is a test file to be sure globs entry in workflow 
 works as expected
+
+yes, it works as expected :)

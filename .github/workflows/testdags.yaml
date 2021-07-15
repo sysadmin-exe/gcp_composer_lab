@@ -28,8 +28,8 @@ jobs:
       name: upload DAGs to GCS data dir for test
       uses: google-github-actions/upload-cloud-storage@main
       with:
-        path: ./dags/
-        destination: europe-west1-firstcomposer-de8e6ba3-bucket/data/test
+        path: ./dags/*.py
+        destination: europe-west1-firstcomposer-de8e6ba3-bucket/data/test/
         glob: '**/*.py'
     
     # Run the test on the GCS folder that  has the DAGs
