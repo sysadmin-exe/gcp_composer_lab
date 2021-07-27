@@ -16,14 +16,14 @@ on:
     - master
 
 jobs:
-  docit:
+  version_dags:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@master
     - name: Copy the DAGs
       run: |
-        find ./dags/ -type f -name "*.py" | while read fname; do
+        find dags -type f -name "*.py" | while read fname; do
           dirname=`dirname "$fname"`
           foldername=`basename "$dirname"`
           filename=`basename "$fname"`
