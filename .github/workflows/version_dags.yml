@@ -1,0 +1,41 @@
+name: Verison DAGs
+
+on:
+  push:
+    paths:
+    - 'dags/*'
+    - '.github/workflows/version_dags.yml'
+    branches:
+    - master
+
+  pull_request:
+    paths:
+    - 'dags/*'
+    - '.github/workflows/version_dags.yml'
+    branches:
+    - master
+
+jobs:
+  docit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    - name: Copy the DAGs
+      run: |
+        find ./dags/ -type f -name "*.py" | while read fname; do
+          dirname=`dirname "$fname"`
+          foldername=`basename "$dirname"`
+          filename=`basename "$fname"`
+          newname=`echo "$dirname" | sed -e "s/ /_/g"`
+          cp "${dirname}/$filename" ".${dirname}/${newname}.py"
+        done
+    - name: Commit files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "Add changes" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
